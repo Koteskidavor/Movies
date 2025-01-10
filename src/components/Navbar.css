@@ -1,0 +1,108 @@
+.navbar {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    background-color: #FA320A;
+    border-bottom: 2px solid #FA320A;
+}
+.nav-item {
+    margin: 0 10px 10px 10px;
+    padding: 10px 20px;
+    cursor: pointer;
+    position: relative;
+    color: #fff;
+}
+.genre-dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #FA320A;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+    min-width: 150px;
+    z-index: 1;
+}
+.nav-item:hover .genre-dropdown {
+    display: block;
+}
+.popularM {
+    background-color: #FA320A;
+    color: black;
+    cursor: pointer;
+}
+.activePopularM {
+    background-color: white;
+    color: black!important;
+    cursor: pointer;
+}
+.activeTopRM {
+    background-color: white;
+    color: black!important;
+    cursor: pointer;
+}
+.activeSearchM {
+    background-color: white;
+    color: black!important;
+    cursor: pointer;
+}
+.TopRatedM {
+    background-color: #FA320A;
+    color: white;
+    cursor: pointer;
+}
+.SearchMovies {
+    background-color: #FA320A;
+    color: white;
+    cursor: pointer;
+}
+.popularT {
+    background-color: #FA320A;
+    color: white;
+    cursor: pointer;
+}
+.activePopularT {
+    background-color: white;
+    color: black!important;
+    cursor: pointer;
+}
+.topRT {
+    background-color: #FA320A;
+    color: white;
+    cursor: pointer;
+}
+.activeTopRT {
+    background-color: white;
+    color: black!important;
+    cursor: pointer;
+}
+.searchTv {
+    background-color: #FA320A;
+    color: white;
+    cursor: pointer;
+}
+.activeSearchT {
+    background-color: white;
+    color: black!important;
+    cursor: pointer;
+}
+.genre-dropdown li {
+    padding: 10px;
+    color: #fff;
+    transition: background-color 0.3s;
+}
+.genre-dropdown li:hover {
+    background-color: white;
+    color: black;
+    cursor: pointer;
+}
+ul {
+    margin: 0;
+}
+.selected-genre {
+    background-color: white;
+    color: black;
+}

@@ -1,0 +1,184 @@
+.carousel-container {
+    position: relative;
+    display: flex;
+}
+.movies {
+    display: flex;
+    overflow: hidden;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    margin: 20px 0;
+    padding: 0 20px;
+    scroll-behavior: smooth;
+    position: relative;
+    height: 100%;
+}
+.popular-movies {
+    flex: 0 0 auto;
+    margin-right: 20px;
+    scroll-snap-align: start;
+    transition: opacity 0.3s;
+    position: relative;
+}
+.popular-movies:hover {
+    opacity: 0.7;
+    border-radius: 7px;
+    color: blue;
+}
+.vote-text {
+    font-size: 12px;
+    font-weight: bold;
+    color: #4caf50;
+}
+.movie-title {
+    text-align: center;
+    padding-top: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    max-width: 200px;
+    text-overflow: ellipsis;
+    transition: text-overflow 0.3s;
+}
+.popular-movies:hover .movie-title {
+    max-height: 5em;
+    overflow: visible;
+    white-space: normal;
+}
+.tvShows {
+    display: flex;
+}
+.popular-tvShows{
+    padding: 10px;
+}
+.navigation {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15vh;
+    width: 100%;
+    position: absolute;
+}
+.next-button {
+    margin-left: auto;
+}
+.prev-button,
+.next-button {
+    background-color: gray;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    outline: none;
+    font-size: 16px;
+}
+.prev-button:hover,
+.next-button:hover {
+    opacity: 0.8;
+}
+.prev-button:disabled,
+.next-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+.action-movies {
+    flex: 0 0 auto;
+    margin-right: 20px;
+    scroll-snap-align: start;
+    transition: opacity 0.3s;
+    position: relative;
+}
+.action-movies:hover {
+    opacity: 0.7;
+    border-radius: 7px;
+    color: blue;
+}
+.action-movies:hover .movie-title {
+    max-height: 5em;
+    overflow: visible;
+    white-space: normal;
+}
+.comedy-movie {
+    flex: 0 0 auto;
+    margin-right: 20px;
+    scroll-snap-align: start;
+    transition: opacity 0.3s;
+    position: relative;
+}
+.comedy-movie:hover {
+    opacity: 0.7;
+    border-radius: 7px;
+    color: blue;
+}
+.comedy-movie:hover .movie-title {
+    max-height: 5em;
+    overflow: visible;
+    white-space: normal;
+}
+.documentary-movie {
+    flex: 0 0 auto;
+    margin-right: 20px;
+    scroll-snap-align: start;
+    transition: opacity 0.3s;
+    position: relative;
+}
+.documentary-movie:hover {
+    opacity: 0.7;
+    border-radius: 7px;
+    color: blue;
+}
+.documentary-movie:hover .movie-title {
+    max-height: 5em;
+    overflow: visible;
+    white-space: normal;
+}
+.history-movie {
+    flex: 0 0 auto;
+    margin-right: 20px;
+    scroll-snap-align: start;
+    transition: opacity 0.3s;
+    position: relative;
+}
+.history-movie:hover {
+    opacity: 0.7;
+    border-radius: 7px;
+    color: blue;
+}
+.history-movie:hover .movie-title {
+    max-height: 5em;
+    overflow: visible;
+    white-space: normal;
+}
+.horror-movie {
+    flex: 0 0 auto;
+    margin-right: 20px;
+    scroll-snap-align: start;
+    transition: opacity 0.3s;
+    position: relative;
+}
+.horror-movie:hover {
+    opacity: 0.7;
+    border-radius: 7px;
+    color: blue;
+}
+.horror-movie:hover .movie-title {
+    max-height: 5em;
+    overflow: visible;
+    white-space: normal;
+}
+.scienceFiction-movie {
+    flex: 0 0 auto;
+    margin-right: 20px;
+    scroll-snap-align: start;
+    transition: opacity 0.3s;
+}
+.scienceFiction-movie:hover {
+    opacity: 0.7;
+    border-radius: 7px;
+    color: blue;
+}
+.scienceFiction-movie:hover .movie-title {
+    max-height: 5em;
+    overflow: visible;
+    white-space: normal;
+}
