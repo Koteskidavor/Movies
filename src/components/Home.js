@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Typography } from '@mui/material';
-import { API_KEY, API_AUTH } from "./API_KEY";
+import {
+  getPopularMovies,
+  getPopularTvShows,
+  discoverMovies,
+  discoverTvShows,
+  getImageUrl,
+} from '../api/tmdb';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import './Home.css';
@@ -35,61 +41,22 @@ const Home = () => {
     const [currentSFPage, setCurrentSFPage] = useState(0);
 
     useEffect(() => {
-        const options = {
-            method: 'GET',
-            headers: {
-                accept: 'application/json',
-                Authorization: `Bearer ${API_KEY}`,
-            }
-        }
-        fetch('https://api.themoviedb.org/3/movie/popular?language=en-US&page=1', options)
-            .then(response => response.json())
-            .then(data => setPopularMovies(data.results))
-            .catch(err => console.error(err));
-        fetch('https://api.themoviedb.org/3/tv/popular?language=en-US&page=1', options)
-            .then(response => response.json())
-            .then(data => setPopularTvShows(data.results))
-            .catch(err => console.error(err));
-        fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${API_AUTH}&with_genres=28`)
-            .then(response => response.json())
-            .then(data => setActionMovies(data.results))
-            .catch(err => console.error(err));
-        fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${API_AUTH}&with_genres=35`)
-            .then(response => response.json())
-            .then(data => setComedyMovies(data.results))
-            .catch(err => console.error(err));
-        fetch(`https://api.themoviedb.org/3/discover/tv?api_key=${API_AUTH}&sort_by=popularity.desc&with_genres=35`)
-            .then(response => response.json())
-            .then(data => setComedyTvShows(data.results))
-            .catch(err => console.error(err));
-        fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${API_AUTH}&with_genres=99`)
-            .then(response => response.json())
-            .then(data => setDocumentaryMovies(data.results))
-            .catch(err => console.error(err));
-        fetch(`https://api.themoviedb.org/3/discover/tv?api_key=${API_AUTH}&sort_by=popularity.desc&with_genres=99`)
-            .then(response => response.json())
-            .then(data => setDocumentaryTvShows(data.results))
-            .catch(err => console.error(err));
-        fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${API_AUTH}&with_genres=36`)
-            .then(response => response.json())
-            .then(data => setHistoryMovies(data.results))
-            .catch(err => console.error(err));
-        fetch(`https://api.themoviedb.org/3/discover/tv?api_key=${API_AUTH}&sort_by=popularity.desc&with_genres=36`)
-            .then(response => response.json())
-            .then(data => setHistoryTvShows(data.results))
-            .catch(err => console.error(err));
-        fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${API_AUTH}&with_genres=27`)
-            .then(response => response.json())
-            .then(data => setHorrorMovie(data.results))
-            .catch(err => console.error(err));
-        fetch(`https://api.themoviedb.org/3/discover/tv?api_key=${API_AUTH}&sort_by=popularity.desc&with_genres=27`)
-            .then(response => response.json())
-            .then(data => setHorrorTvShows(data.results))
-            .catch(err => console.error(err))
-        fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${API_AUTH}&with_genres=878`)
-            .then(response => response.json())
-            .then(data => setScienceFictionMovies(data.results))
-            .catch(err => console.error(err))
+        const tvSort = { sort_by: 'popularity.desc' };
+        const requests = [
+            getPopularMovies().then(({ data }) => setPopularMovies(data.results)),
+            getPopularTvShows().then(({ data }) => setPopularTvShows(data.results)),
+            discoverMovies({ with_genres: 28 }).then(({ data }) => setActionMovies(data.results)),
+            discoverMovies({ with_genres: 35 }).then(({ data }) => setComedyMovies(data.results)),
+            discoverTvShows({ ...tvSort, with_genres: 35 }).then(({ data }) => setComedyTvShows(data.results)),
+            discoverMovies({ with_genres: 99 }).then(({ data }) => setDocumentaryMovies(data.results)),
+            discoverTvShows({ ...tvSort, with_genres: 99 }).then(({ data }) => setDocumentaryTvShows(data.results)),
+            discoverMovies({ with_genres: 36 }).then(({ data }) => setHistoryMovies(data.results)),
+            discoverTvShows({ ...tvSort, with_genres: 36 }).then(({ data }) => setHistoryTvShows(data.results)),
+            discoverMovies({ with_genres: 27 }).then(({ data }) => setHorrorMovie(data.results)),
+            discoverTvShows({ ...tvSort, with_genres: 27 }).then(({ data }) => setHorrorTvShows(data.results)),
+            discoverMovies({ with_genres: 878 }).then(({ data }) => setScienceFictionMovies(data.results)),
+        ];
+        Promise.all(requests).catch((err) => console.error(err));
     }, []);
     // crime: 80, documentary: 99, history: 36, horror: 27, sf: 878
     function shuffleArray(array) {
@@ -205,7 +172,7 @@ const Home = () => {
                 <div className="movies">
                     {visibleMovie.map(movie => (
                         <div key={movie.id} className="popular-movies">
-                            <img src={`https://image.tmdb.org/t/p/original${movie.poster_path}`} alt={movie.title} style={{ width: '200px', }} />
+                            <img src={getImageUrl(movie.poster_path)} alt={movie.title} style={{ width: '200px', }} />
                             <div className="vote-text">{movie.vote_average * 10}% Rating</div>
                             <Typography key={movie.id} className="movie-title" >{movie.title ? movie.title : movie.name}</Typography>
                         </div>
@@ -229,7 +196,7 @@ const Home = () => {
                 <div className="movies">
                     {visibleActionMovie.map(movie => (
                         <div className="action-movies" key={movie.id}  >
-                            <img src={`https://image.tmdb.org/t/p/original${movie.poster_path}`} alt={movie.original_title} style={{ width: '200px', }} />
+                            <img src={getImageUrl(movie.poster_path)} alt={movie.original_title} style={{ width: '200px', }} />
                             <div className="vote-text">{movie.vote_average * 10}% Rating</div>
                             <Typography key={movie.id} className="movie-title" >{movie.original_title}</Typography>
                         </div>
@@ -253,7 +220,7 @@ const Home = () => {
                 <div className="movies">
                     {visibleComedyMovie.map(movie => (
                         <div className="comedy-movie" key={movie.id}>
-                            <img src={`https://image.tmdb.org/t/p/original${movie.poster_path}`} alt={movie.original_name ? movie.original_name : movie.original_title} style={{ width: '200px', height: '300px'}} />
+                            <img src={getImageUrl(movie.poster_path)} alt={movie.original_name ? movie.original_name : movie.original_title} style={{ width: '200px', height: '300px'}} />
                             <div className="vote-text">{movie.vote_average * 10}% Rating</div>
                             <div className="movie-title">{movie.original_title ? movie.original_title : movie.original_name}</div>
                         </div>
@@ -277,7 +244,7 @@ const Home = () => {
                 <div className="movies">
                     {visibleDocumentaryMovie.map(movie => (
                         <div className="documentary-movie" key={movie.id}>
-                            <img src={`https://image.tmdb.org/t/p/original${movie.poster_path}`} alt="" style={{ width: '200px', height: '300px'}} />
+                            <img src={getImageUrl(movie.poster_path)} alt="" style={{ width: '200px', height: '300px'}} />
                             <div className="vote-text">{movie.vote_average * 10}% Rating</div>
                             <div className="movie-title">{movie.original_title ? movie.original_title : movie.original_name}</div>
                         </div>
@@ -301,7 +268,7 @@ const Home = () => {
                 <div className="movies">
                     {visibleHistoryMovie.map(movie => (
                         <div className="history-movie" key={movie.id} >
-                            <img src={`https://image.tmdb.org/t/p/original${movie.poster_path}`} alt="" style={{ width: '200px', height: '300px'}} />
+                            <img src={getImageUrl(movie.poster_path)} alt="" style={{ width: '200px', height: '300px'}} />
                             <div className="vote-text">{movie.vote_average * 10}% Rating</div>
                             <div className="movie-title">{movie.original_title ? movie.original_title : movie.original_name}</div>
                         </div>
@@ -325,7 +292,7 @@ const Home = () => {
                 <div className="movies">
                     {visibleHorrorMovie.map(movie => (
                         <div className="horror-movie" key={movie.id}>
-                            <img src={`https://image.tmdb.org/t/p/original${movie.poster_path}`} alt="" style={{ width: '200px', height: '300px'}} />
+                            <img src={getImageUrl(movie.poster_path)} alt="" style={{ width: '200px', height: '300px'}} />
                             <div className="vote-text">{movie.vote_average * 10}% Rating</div>
                             <div className="movie-title">{movie.original_title ? movie.original_title : movie.original_name}</div>
                         </div>
@@ -349,7 +316,7 @@ const Home = () => {
                 <div className="movies">
                     {visibleSFMovie.map(movie => (
                         <div className="scienceFiction-movie" key={movie.id}>
-                            <img src={`https://image.tmdb.org/t/p/original${movie.poster_path}`} alt="" style={{ width: '200px', height: '300px'}} />
+                            <img src={getImageUrl(movie.poster_path)} alt="" style={{ width: '200px', height: '300px'}} />
                             <div className="vote-text">{movie.vote_average * 10}% Rating</div>
                             <div className="movie-title">{movie.original_title}</div>
                         </div>
