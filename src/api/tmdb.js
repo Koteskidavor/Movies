@@ -11,7 +11,7 @@ const tmdb = axios.create({
   },
 });
 
-export const getImageUrl = (path, size = "original") => {
+export const getImageUrl = (path, size = "w500") => {
   if (!path) return null;
   return `${IMAGE_BASE_URL}/${size}${path}`;
 };
@@ -40,16 +40,16 @@ export const searchMovies = (query, page = 1) =>
 export const searchTvShows = (query, page = 1) =>
   tmdb.get("/search/tv", { params: { query, page } });
 
-export const getMovieDetails = (id) =>
-  tmdb.get(`/movie/${id}`);
+export const getMovieDetails = (id, options = {}) =>
+  tmdb.get(`/movie/${id}`, options);
 
-export const getMovieCredits = (id) =>
-  tmdb.get(`/movie/${id}/credits`);
+export const getMovieCredits = (id, options = {}) =>
+  tmdb.get(`/movie/${id}/credits`, options);
 
-export const getTvShowDetails = (id) =>
-  tmdb.get(`/tv/${id}`);
+export const getTvShowDetails = (id, options = {}) =>
+  tmdb.get(`/tv/${id}`, options);
 
-export const getTvShowCredits = (id) =>
-  tmdb.get(`/tv/${id}/credits`);
+export const getTvShowCredits = (id, options = {}) =>
+  tmdb.get(`/tv/${id}/credits`, options);
 
 export default tmdb;

@@ -1,8 +1,10 @@
+import { memo, useMemo } from "react";
 import "./Pagination.css";
 
 const PAGE_SIZE = 20;
+const TMDB_MAX_PAGES = 500;
 
-const getPageWindow = (currentPage, totalPages, delta = 2) => {
+function getPageWindow(currentPage, totalPages, delta = 2) {
   const pages = [];
   const left = Math.max(2, currentPage - delta);
   const right = Math.min(totalPages - 1, currentPage + delta);
@@ -25,7 +27,7 @@ const getPageWindow = (currentPage, totalPages, delta = 2) => {
   }
 
   return withEdges;
-};
+}
 
 const Pagination = ({
   currentPage,
@@ -35,12 +37,19 @@ const Pagination = ({
   pageSize = PAGE_SIZE,
   itemLabel = "movies",
 }) => {
+  const caps = useMemo(() => {
+    const cappedTotalPages = Math.min(totalPages, TMDB_MAX_PAGES);
+    const cappedTotalResults = Math.min(totalResults, cappedTotalPages * pageSize);
+    const start = (currentPage - 1) * pageSize + 1;
+    const end = Math.min(currentPage * pageSize, cappedTotalResults);
+    const pageNumbers =
+      cappedTotalPages > 1 ? getPageWindow(currentPage, cappedTotalPages) : [];
+    return { cappedTotalPages, cappedTotalResults, start, end, pageNumbers };
+  }, [currentPage, totalPages, totalResults, pageSize]);
+
   if (!totalResults || totalResults === 0) return null;
 
-  const start = (currentPage - 1) * pageSize + 1;
-  const end = Math.min(currentPage * pageSize, totalResults);
-  const pageNumbers =
-    totalPages > 1 ? getPageWindow(currentPage, totalPages) : [];
+  const { cappedTotalPages, cappedTotalResults, start, end, pageNumbers } = caps;
 
   return (
     <div className="pagination">
@@ -48,9 +57,9 @@ const Pagination = ({
         <strong>
           {start}-{end}
         </strong>{" "}
-        of <strong>{totalResults.toLocaleString()}</strong> {itemLabel}
+        of <strong>{cappedTotalResults.toLocaleString()}</strong> {itemLabel}
       </div>
-      {totalPages > 1 && (
+      {cappedTotalPages > 1 && (
         <div className="pagination-controls">
           <button
             className="pagination-btn"
@@ -81,7 +90,7 @@ const Pagination = ({
           <button
             className="pagination-btn"
             onClick={() => onPageChange(currentPage + 1)}
-            disabled={currentPage >= totalPages}
+            disabled={currentPage >= cappedTotalPages}
             aria-label="Next page"
           >
             Next ›
@@ -92,4 +101,4 @@ const Pagination = ({
   );
 };
 
-export default Pagination;
+export default memo(Pagination);
