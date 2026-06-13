@@ -125,13 +125,13 @@ const Navbar = () => {
 
   const selectResult = (item) => {
     const isSame =
-      (activeSection === "movies" && location.pathname !== "/TvShow" && !location.pathname.includes("Tv")) ||
-      (activeSection === "tvShows" && (location.pathname === "/TvShow" || location.pathname.includes("Tv")));
+      (activeSection === "movies" && location.pathname !== "/TvShows") ||
+      (activeSection === "tvShows" && (location.pathname === "/TvShows" || location.pathname.includes("Tv")));
     if (isSame) {
       const modalType = activeSection === "movies" ? "movie" : "tv";
       navigate(location.pathname, { state: { openModalItem: item, openModalType: modalType } });
     } else {
-      const path = activeSection === "movies" ? "/Movies" : "/TvShow";
+      const path = activeSection === "movies" ? "/Movies" : "/TvShows";
       navigate(path, { state: { openModalItem: item, openModalType: activeSection === "movies" ? "movie" : "tv" } });
     }
     closeSearch();
