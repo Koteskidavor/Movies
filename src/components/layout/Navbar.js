@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { searchMovies, searchTvShows, getImageUrl } from "../../api/tmdb";
 import { getRatingColor } from "../../utils/helpers";
@@ -158,7 +158,7 @@ const Navbar = () => {
   return (
     <div className="navbar-wrapper">
       <div className="navbar-inner">
-        <div className="navbar-brand">Movies</div>
+        <Link to="/Movies" className="navbar-brand">Movies</Link>
 
         <nav className="navbar-tabs" aria-label="Content type">
           <button
