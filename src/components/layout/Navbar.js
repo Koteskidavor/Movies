@@ -23,10 +23,10 @@ const Navbar = () => {
     const path = location.pathname;
 
     const isTv =
-      path === "/TvShow" ||
+      path === "/TvShows" ||
       path === "/PopularTvShows" ||
       path === "/TopRatedTvShows" ||
-      path.startsWith("/TvShow/");
+      path.startsWith("/TvShows/");
     setActiveSection(isTv ? "tvShows" : "movies");
 
     if (path === "/PopularMovies") setActiveSub("popularMovie");
@@ -91,7 +91,7 @@ const Navbar = () => {
     if (section === "movies") {
       navigate("/Movies");
     } else {
-      navigate("/TvShow");
+      navigate("/TvShows");
     }
   };
 
