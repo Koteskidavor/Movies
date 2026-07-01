@@ -11,12 +11,15 @@
   margin: 0 auto;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   padding: 0 32px;
   height: 60px;
+  position: relative;
 }
 
 .navbar-brand {
+  position: absolute;
+  left: 32px;
   font-size: 20px;
   font-weight: 800;
   color: #ffffff;
@@ -72,6 +75,8 @@
   display: flex;
   align-items: center;
   gap: 12px;
+  position: absolute;
+  right: 32px;
 }
 
 .search-wrapper {
@@ -227,18 +232,33 @@
   font-weight: 600;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 680px) {
+  .navbar-wrapper.search-open .navbar-tabs {
+    display: none;
+  }
+}
+
+@media (max-width: 510px) {
   .navbar-inner {
     padding: 0 16px;
   }
 
   .navbar-brand {
+    left: 16px;
     font-size: 16px;
+  }
+
+  .navbar-right {
+    right: 16px;
   }
 
   .nav-item {
     padding: 8px 12px;
     font-size: 12px;
+  }
+
+  .navbar-search-input {
+    width: 110px;
   }
 
   .navbar-subnav {

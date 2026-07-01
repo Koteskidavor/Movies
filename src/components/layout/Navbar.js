@@ -156,7 +156,7 @@ const Navbar = () => {
   const subLinks = activeSection === "movies" ? movieSubLinks : tvSubLinks;
 
   return (
-    <div className="navbar-wrapper">
+    <div className={`navbar-wrapper${searchOpen ? " search-open" : ""}`}>
       <div className="navbar-inner">
         <Link to="/Movies" className="navbar-brand">Movies</Link>
 
